@@ -18,8 +18,12 @@ public class PrefixMessageDecorator {
         return CHAR_PREFIX + ": " + message;
     }
 
-    public static String decorateMessage(String message) {
-        return STRING_PREFIX + ": " + message;
+    public static String decorateMessage(String message, long counter) {
+        if (counter == 1) {
+            return STRING_PREFIX + ": " + message;
+        } else {
+            return String.format(STRING_PREFIX + ": %s (x%d)", message, counter);
+        }
     }
 
     public static String decorateMessage(boolean message) {
