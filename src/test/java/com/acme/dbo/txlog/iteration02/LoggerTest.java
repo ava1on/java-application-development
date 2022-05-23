@@ -48,7 +48,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Facade.log("str 1");
         Facade.log(10);
-        Facade.log(Integer.MAX_VALUE);
+        Facade.log(Integer.MAX_VALUE - 2);
         Facade.log("str 2");
         Facade.log(0);
         Facade.flush();
@@ -56,8 +56,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutContains("str 1");
-        assertSysoutContains("10");
         assertSysoutContains(Integer.MAX_VALUE + "");
+        assertSysoutContains("8");
         assertSysoutContains("str 2");
         assertSysoutContains("0");
         //endregion
