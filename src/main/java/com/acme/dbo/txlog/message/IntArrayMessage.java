@@ -4,7 +4,9 @@ import com.acme.dbo.txlog.Severity;
 
 import java.util.Arrays;
 
-public class IntArrayMessage {
+public class IntArrayMessage implements Message {
+    private static final String PREFIX = "primitives array: ";
+
     private int[] value;
     private Severity severity;
 
@@ -17,7 +19,18 @@ public class IntArrayMessage {
         return value;
     }
 
-    public String decorate() {
-        return "primitives array: " + Arrays.toString(getValue()).replace('[', '{').replace(']', '}');
+    @Override
+    public boolean canBeAccumulatedWithMessage(Message message) {
+        return false;
+    }
+
+    @Override
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(getValue()).replace('[', '{').replace(']', '}');
     }
 }

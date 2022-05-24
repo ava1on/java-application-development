@@ -4,7 +4,9 @@ import com.acme.dbo.txlog.Severity;
 
 import java.util.Arrays;
 
-public class IntMatrixMessage {
+public class IntMatrixMessage implements Message {
+    private static final String PREFIX = "primitives matrix: ";
+
     private int[][] value;
     private Severity severity;
 
@@ -17,8 +19,19 @@ public class IntMatrixMessage {
         return value;
     }
 
-    public String decorate() {
-        StringBuilder result =  new StringBuilder("primitives matrix: {\n");
+    @Override
+    public boolean canBeAccumulatedWithMessage(Message message) {
+        return false;
+    }
+
+    @Override
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result =  new StringBuilder("{\n");
         for (int[] temp: getValue()) {
             result.append(Arrays.toString(temp).replace('[', '{').replace(']', '}') + "\n");
         }

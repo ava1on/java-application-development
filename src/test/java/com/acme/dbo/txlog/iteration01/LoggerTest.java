@@ -43,9 +43,9 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogByte() throws IOException {
         //region when
         Facade.log((byte)1);
-        Facade.flush();
+//        Facade.flush();
         Facade.log((byte)0);
-        Facade.flush();
+//        Facade.flush();
         Facade.log((byte)-1);
         Facade.flush();
         //endregion
@@ -63,6 +63,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Facade.log('a');
         Facade.log('b');
+        Facade.flush();
         //endregion
 
         //region then
@@ -92,6 +93,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Facade.log(true);
         Facade.log(false);
+        Facade.flush();
         //endregion
 
         //region then
@@ -105,6 +107,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogReference() throws IOException {
         //region when
         Facade.log(new Object());
+        Facade.flush();
         //endregion
 
         //region then

@@ -3,10 +3,11 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class IntMessage {
+public class IntMessage implements AccumulatingMessage {
+    private static final String PREFIX = "primitive: ";
+
     private int value;
     private Severity severity;
-    private final String PREFIX = "primitive: ";
 
     public IntMessage(int value, Severity severity) {
         this.value = value;
@@ -25,15 +26,27 @@ public class IntMessage {
         return severity;
     }
 
-    public String decorate() {
-        return PREFIX + getValue();
+    @Override
+    public void accumulate(Message message) {
+        this.value += ((IntMessage)message).getValue();
     }
 
-    public void accumulate(IntMessage message) {
-        this.value += message.getValue();
+    @Override
+    public boolean canBeAccumulatedWithMessage(Message message) {
+        return message instanceof IntMessage;
     }
 
     public boolean isOverflowWhenAccumulating(IntMessage message) {
-        return (long)this.getValue() + message.getValue() > Integer.MAX_VALUE;
+        return (long) this.getValue() + message.getValue() > Integer.MAX_VALUE;
+    }
+
+    @Override
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    @Override
+    public String toString() {
+        return getValue() + "";
     }
 }

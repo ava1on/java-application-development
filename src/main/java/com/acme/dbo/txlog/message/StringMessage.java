@@ -3,8 +3,10 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class StringMessage {
-    private final String PREFIX = "string: ";
+import java.util.Objects;
+
+public class StringMessage implements AccumulatingMessage {
+    private static final String PREFIX = "string: ";
 
     private String value;
     private Severity severity;
@@ -28,15 +30,27 @@ public class StringMessage {
         return severity;
     }
 
-    public String decorate() {
+    @Override
+    public void accumulate(Message message) {
+        this.count++;
+    }
+
+    @Override
+    public boolean canBeAccumulatedWithMessage(Message message) {
+        return message instanceof StringMessage && Objects.equals(((StringMessage) message).getValue(), this.getValue());
+    }
+
+    @Override
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    @Override
+    public String toString() {
         if (count == 1) {
             return PREFIX + value;
         } else {
             return String.format("%s %s (x%d)", PREFIX, value, count);
         }
-    }
-
-    public void accumulate(StringMessage message) {
-        this.count++;
     }
 }

@@ -3,7 +3,9 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class ByteMessage{
+public class ByteMessage implements Message {
+    private static final String PREFIX = "primitive: ";
+
     private byte value;
     private Severity severity;
 
@@ -28,7 +30,18 @@ public class ByteMessage{
         return this.getValue() + message.getValue() > Byte.MAX_VALUE;
     }
 
-    public String decorate() {
-        return "primitive: " + getValue();
+    @Override
+    public boolean canBeAccumulatedWithMessage(Message message) {
+        return false;
+    }
+
+    @Override
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    @Override
+    public String toString() {
+        return getValue() + "";
     }
 }
