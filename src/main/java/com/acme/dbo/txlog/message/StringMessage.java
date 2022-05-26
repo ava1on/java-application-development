@@ -5,20 +5,17 @@ import com.acme.dbo.txlog.Severity;
 
 import java.util.Objects;
 
-public class StringMessage implements AccumulatingMessage {
-    private static final String PREFIX = "string: ";
-
+public class StringMessage extends PrefixDecoratedMessage implements AccumulatingMessage {
     private String value;
     private Severity severity;
     private int count;
 
     public StringMessage(String value, Severity severity) {
-        this.value = value;
-        this.severity = severity;
-        count = 1;
+        this(value, severity, 1);
     }
 
     public StringMessage(String value, Severity severity, int count) {
+        super("string: ");
         this.value = value;
         this.severity = severity;
         this.count = count;
@@ -47,16 +44,8 @@ public class StringMessage implements AccumulatingMessage {
     }
 
     @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
-        if (count == 1) {
-            return PREFIX + value;
-        } else {
-            return String.format("%s %s (x%d)", PREFIX, value, count);
-        }
+    public String decorate() {
+        String value = (count == 1) ? this.getValue() : String.format("%s (x%d)", this.getValue(), count);
+        return super.decorate(value);
     }
 }

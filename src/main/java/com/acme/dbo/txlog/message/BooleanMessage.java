@@ -2,13 +2,13 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class BooleanMessage implements Message {
-    private static final String PREFIX = "primitive: ";
+public class BooleanMessage extends PrefixDecoratedMessage {
 
     private boolean value;
     private Severity severity;
 
     public BooleanMessage(boolean value, Severity severity) {
+        super("primitive: ");
         this.value = value;
         this.severity = severity;
     }
@@ -23,12 +23,7 @@ public class BooleanMessage implements Message {
     }
 
     @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
-        return getValue() + "";
+    public String decorate() {
+        return super.decorate(getValue() + "");
     }
 }

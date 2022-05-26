@@ -12,7 +12,7 @@ public class DefaultMessage implements AccumulatingMessage {
     }
 
     @Override
-    public String getPrefix() {
+    public String decorate() {
         return "";
     }
 }

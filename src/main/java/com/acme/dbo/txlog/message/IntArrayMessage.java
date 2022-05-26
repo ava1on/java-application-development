@@ -4,13 +4,12 @@ import com.acme.dbo.txlog.Severity;
 
 import java.util.Arrays;
 
-public class IntArrayMessage implements Message {
-    private static final String PREFIX = "primitives array: ";
-
+public class IntArrayMessage extends PrefixDecoratedMessage {
     private int[] value;
     private Severity severity;
 
     public IntArrayMessage(int[] value, Severity severity) {
+        super("primitives array: ");
         this.value = value;
         this.severity = severity;
     }
@@ -25,12 +24,7 @@ public class IntArrayMessage implements Message {
     }
 
     @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(getValue()).replace('[', '{').replace(']', '}');
+    public String decorate() {
+        return super.decorate(Arrays.toString(getValue()).replace('[', '{').replace(']', '}'));
     }
 }

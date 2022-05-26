@@ -6,7 +6,7 @@ import com.acme.dbo.txlog.saver.ConsoleSaver;
 import com.acme.dbo.txlog.service.LogService;
 
 public class Facade {
-    private static LogService logService = new LogService(new ConsoleSaver(), new PrefixMessageDecorator());
+    private static LogService logService = new LogService(new ConsoleSaver());
 
     public static void log(int message) {
         logService.log(new IntMessage(message, Severity.MEDIUM));
@@ -27,7 +27,6 @@ public class Facade {
     public static void log(boolean message) {
         logService.log(new BooleanMessage(message, Severity.MINOR));
     }
-
 
     public static void log(int[][] message) {
         logService.log(new IntMatrixMessage(message, Severity.HIGH));

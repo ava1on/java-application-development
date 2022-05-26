@@ -2,13 +2,12 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class ObjectMessage implements Message {
-    private static final String PREFIX = "reference: ";
-
+public class ObjectMessage extends PrefixDecoratedMessage {
     private Object value;
     private Severity severity;
 
     public ObjectMessage(Object value, Severity severity) {
+        super("reference: ");
         this.value = value;
         this.severity = severity;
     }
@@ -22,13 +21,7 @@ public class ObjectMessage implements Message {
         return false;
     }
 
-    @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
-        return getValue() + "";
+    public String decorate() {
+        return super.decorate(this.toString());
     }
 }

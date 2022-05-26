@@ -2,13 +2,12 @@ package com.acme.dbo.txlog.message;
 
 import com.acme.dbo.txlog.Severity;
 
-public class CharMessage implements Message {
-    private static final String PREFIX = "char: ";
-
+public class CharMessage extends PrefixDecoratedMessage{
     private char value;
     private Severity severity;
 
     public CharMessage(char value, Severity severity) {
+        super("char: ");
         this.value = value;
         this.severity = severity;
     }
@@ -23,12 +22,7 @@ public class CharMessage implements Message {
     }
 
     @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
-        return getValue() + "";
+    public String decorate() {
+        return super.decorate(this.getValue() + "");
     }
 }

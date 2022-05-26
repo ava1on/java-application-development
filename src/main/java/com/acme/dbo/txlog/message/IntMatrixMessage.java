@@ -4,13 +4,12 @@ import com.acme.dbo.txlog.Severity;
 
 import java.util.Arrays;
 
-public class IntMatrixMessage implements Message {
-    private static final String PREFIX = "primitives matrix: ";
-
+public class IntMatrixMessage extends PrefixDecoratedMessage {
     private int[][] value;
     private Severity severity;
 
     public IntMatrixMessage(int[][] value, Severity severity) {
+        super("primitives matrix: ");
         this.value = value;
         this.severity = severity;
     }
@@ -25,16 +24,11 @@ public class IntMatrixMessage implements Message {
     }
 
     @Override
-    public String getPrefix() {
-        return PREFIX;
-    }
-
-    @Override
-    public String toString() {
+    public String decorate() {
         StringBuilder result =  new StringBuilder("{\n");
         for (int[] temp: getValue()) {
             result.append(Arrays.toString(temp).replace('[', '{').replace(']', '}') + "\n");
         }
-        return result.append("}").toString();
+        return super.decorate(result.append("}").toString());
     }
 }
