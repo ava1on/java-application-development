@@ -18,6 +18,12 @@ public class StringMessage implements AccumulatingMessage {
         count = 1;
     }
 
+    public StringMessage(String value, Severity severity, int count) {
+        this.value = value;
+        this.severity = severity;
+        this.count = count;
+    }
+
     public StringMessage(String value) {
         this(value, Severity.MINOR);
     }
@@ -31,8 +37,8 @@ public class StringMessage implements AccumulatingMessage {
     }
 
     @Override
-    public void accumulate(Message message) {
-        this.count++;
+    public StringMessage accumulate(Message message) {
+        return new StringMessage(this.getValue(), this.getSeverity(), this.count + 1);
     }
 
     @Override

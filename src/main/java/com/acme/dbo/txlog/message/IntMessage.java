@@ -27,8 +27,8 @@ public class IntMessage implements AccumulatingMessage {
     }
 
     @Override
-    public void accumulate(Message message) {
-        this.value += ((IntMessage)message).getValue();
+    public IntMessage accumulate(Message message) {
+        return new IntMessage(this.getValue() + ((IntMessage)message).getValue());
     }
 
     @Override

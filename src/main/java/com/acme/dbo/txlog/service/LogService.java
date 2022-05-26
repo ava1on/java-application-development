@@ -6,7 +6,7 @@ import com.acme.dbo.txlog.saver.Saver;
 
 public class LogService {
     private Saver saver;
-    private Message currentMessage;
+    private Message currentMessage = new DefaultMessage();
     private Decorator decorator;
 
     public LogService(Saver saver, Decorator decorator) {
@@ -15,12 +15,8 @@ public class LogService {
     }
 
     public void log(Message message) {
-        if (currentMessage == null) {
-            currentMessage = message;
-            return;
-        }
         if (currentMessage.canBeAccumulatedWithMessage(message)) {
-            ((AccumulatingMessage)currentMessage).accumulate(message);
+            currentMessage = ((AccumulatingMessage)currentMessage).accumulate(message);
         } else {
             saver.save(decorator.decorate(currentMessage));
             currentMessage = message;
@@ -29,6 +25,6 @@ public class LogService {
 
     public void flush() {
         saver.save(decorator.decorate(currentMessage));
-        currentMessage = null;
+        currentMessage = new DefaultMessage();
     }
 }
